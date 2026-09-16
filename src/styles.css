@@ -1,0 +1,139 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Karla", system-ui, sans-serif;
+  --font-arabic: "Amiri Quran", "Scheherazade New", serif;
+  --font-urdu: "Noto Nastaliq Urdu", serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.975 0.014 88);
+  --foreground: oklch(0.24 0.03 155);
+  --card: oklch(0.995 0.008 90);
+  --card-foreground: oklch(0.24 0.03 155);
+  --primary: oklch(0.36 0.075 158);
+  --primary-foreground: oklch(0.98 0.012 90);
+  --secondary: oklch(0.94 0.02 90);
+  --secondary-foreground: oklch(0.3 0.05 158);
+  --muted: oklch(0.94 0.017 90);
+  --muted-foreground: oklch(0.5 0.03 150);
+  --gold: oklch(0.75 0.12 84);
+  --gold-foreground: oklch(0.28 0.05 84);
+  --border: oklch(0.89 0.02 88);
+  --ring: oklch(0.75 0.12 84);
+}
+
+.dark {
+  --background: oklch(0.19 0.03 158);
+  --foreground: oklch(0.95 0.014 90);
+  --card: oklch(0.235 0.035 158);
+  --card-foreground: oklch(0.95 0.014 90);
+  --primary: oklch(0.78 0.11 84);
+  --primary-foreground: oklch(0.2 0.03 158);
+  --secondary: oklch(0.27 0.035 158);
+  --secondary-foreground: oklch(0.95 0.014 90);
+  --muted: oklch(0.27 0.035 158);
+  --muted-foreground: oklch(0.75 0.02 120);
+  --gold: oklch(0.8 0.11 84);
+  --gold-foreground: oklch(0.2 0.03 158);
+  --border: oklch(1 0 0 / 12%);
+  --ring: oklch(0.8 0.11 84);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@utility gold-rule {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 80%, transparent),
+    transparent
+  );
+}
+
+@utility card-premium {
+  background-color: var(--color-card);
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, var(--color-border));
+  border-radius: var(--radius-xl);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--foreground) 6%, transparent);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+    box-shadow: 0 8px 24px -12px color-mix(in oklab, var(--foreground) 25%, transparent);
+  }
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent);
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+@utility btn-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-card);
+  color: var(--color-foreground);
+
+  &:hover {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+  }
+}
