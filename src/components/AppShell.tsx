@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import logo from "@/assets/al-noor-logo.png";
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="sticky top-0 z-10 border-b border-border/70 bg-background/90 backdrop-blur">
@@ -20,6 +22,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               Al-Noor Quran
             </span>
           </Link>
+
           <nav className="flex shrink-0 items-center gap-2 text-sm">
             <Link to="/paras" className="btn-quiet">
               پارے
@@ -27,15 +30,42 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link to="/surahs" className="btn-quiet">
               سورتیں
             </Link>
-            <Link to="/masnoon-duain" className="btn-quiet">
-              <span aria-hidden="true">✦</span>
-              <span>مسنون دعا</span>
-            </Link>
-            <Link to="/settings" className="btn-quiet">
-              ترتیبات
-            </Link>
+
+            <div className="hidden items-center gap-2 sm:flex">
+              <Link to="/masnoon-duain" className="btn-quiet">
+                <span aria-hidden="true">✦</span>
+                <span>مسنون دعا</span>
+              </Link>
+              <Link to="/settings" className="btn-quiet">
+                ترتیبات
+              </Link>
+            </div>
+
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((value) => !value)}
+              className="btn-quiet flex items-center justify-center p-2 sm:hidden"
+            >
+              ☰
+            </button>
           </nav>
         </div>
+
+        {menuOpen && (
+          <div className="border-t border-border/70 bg-background/95 px-4 py-3 sm:hidden">
+            <div className="mx-auto flex max-w-5xl flex-col items-stretch gap-2 text-sm">
+              <Link to="/masnoon-duain" className="btn-quiet justify-center" onClick={() => setMenuOpen(false)}>
+                <span aria-hidden="true">✦</span>
+                <span>مسنون دعا</span>
+              </Link>
+              <Link to="/settings" className="btn-quiet justify-center" onClick={() => setMenuOpen(false)}>
+                ترتیبات
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:py-10">{children}</main>

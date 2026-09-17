@@ -1,8 +1,17 @@
 import { DUA_FALLBACK_DATA, type DuaItem } from "@/data/duasFallback";
 
-export const DUAS_STORAGE_KEY = "alnoor:duas-cache:v1";
+export const DUAS_STORAGE_KEY = "alnoor:duas-cache:v2";
 export const DUAS_FAVORITES_KEY = "alnoor:duas-favorites:v1";
 export const DUAS_API_BASE_URL = "";
+
+function hasRequiredDuaContent(items: DuaItem[] | null): boolean {
+  if (!items || !items.length) return false;
+
+  return (
+    items.some((dua) => dua.category === "Dua e Qunut") &&
+    items.some((dua) => dua.category === "Namaz e Janaza ki Duain")
+  );
+}
 
 function readStorage<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -24,12 +33,23 @@ function writeStorage<T>(key: string, value: T) {
 }
 
 export async function fetchDuas(): Promise<DuaItem[]> {
+  const fallback = DUA_FALLBACK_DATA.map((dua) => ({ ...dua }));
+
   const cached = readStorage<DuaItem[]>(DUAS_STORAGE_KEY, null);
-  if (cached && cached.length) {
+  if (cached && hasRequiredDuaContent(cached)) {
     return cached;
   }
 
-  const fallback = DUA_FALLBACK_DATA.map((dua) => ({ ...dua }));
+  if (typeof window !== "undefined") {
+    const legacyCached = readStorage<DuaItem[] | null>("alnoor:duas-cache:v1", null);
+    if (legacyCached && hasRequiredDuaContent(legacyCached)) {
+      writeStorage(DUAS_STORAGE_KEY, legacyCached);
+      return legacyCached;
+    }
+
+    window.localStorage.removeItem("alnoor:duas-cache:v1");
+  }
+
   writeStorage(DUAS_STORAGE_KEY, fallback);
   return fallback;
 }
