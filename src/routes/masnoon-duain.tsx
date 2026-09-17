@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DUA_CATEGORIES, type DuaItem } from "@/data/duasFallback";
@@ -18,6 +18,14 @@ export const Route = createFileRoute("/masnoon-duain")({
 });
 
 function MasnoonDuainPage() {
+  const location = useLocation();
+  const isDetailRoute =
+    location.pathname !== "/masnoon-duain" && location.pathname.startsWith("/masnoon-duain/");
+
+  if (isDetailRoute) {
+    return <Outlet />;
+  }
+
   const [duas, setDuas] = useState<DuaItem[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -83,19 +91,22 @@ function MasnoonDuainPage() {
             className="w-full rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-gold/70"
           />
 
-          <div className="flex flex-wrap gap-2">
-            {allCategories.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setCategory(item)}
-                className={
-                  item === category ? "btn-primary" : "btn-quiet"
-                }
-              >
-                {item}
-              </button>
-            ))}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <label htmlFor="dua-category" className="text-sm font-medium text-muted-foreground">
+              Category
+            </label>
+            <select
+              id="dua-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-sm text-foreground outline-none focus:border-gold/70 sm:max-w-xs"
+            >
+              {allCategories.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </section>
