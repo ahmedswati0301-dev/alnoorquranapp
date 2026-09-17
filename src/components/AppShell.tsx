@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               loading="lazy"
               className="h-9 w-9 shrink-0"
             />
-            <span className="truncate font-display text-xl font-semibold tracking-wide">
+            <span className="hidden truncate font-display text-xl font-semibold tracking-wide sm:inline">
               Al-Noor Quran
             </span>
           </Link>
