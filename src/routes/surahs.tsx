@@ -93,7 +93,7 @@ function SurahsPage() {
                   {surah.name}
                 </span>
                 <span className="mt-1 block truncate text-xs tracking-wide text-muted-foreground">
-                  {surah.revelation} · {surah.ayahs} Ayahs
+                  {surah.revelation} · {surah.ayahs} Ayahs · Urdu: {surah.meaning}
                 </span>
               </span>
             </Link>

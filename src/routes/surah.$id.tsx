@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { AyahTafsir } from "@/components/AyahTafsir";
+import { filterAyahs } from "@/lib/ayah-filter";
 import { SURAHS } from "@/lib/quran-data";
 import { getSurah, type Ayah } from "@/services/quran";
 import { useNumberSetting, useTheme } from "@/lib/settings";
@@ -40,6 +41,12 @@ function SurahReaderPage() {
   const [arabicSize, setArabicSize] = useNumberSetting("arabicSize", 30);
   const [urduSize, setUrduSize] = useNumberSetting("urduSize", 18);
   const [theme, setTheme] = useTheme();
+  const [query, setQuery] = useState("");
+
+  const filteredAyahs = useMemo(() => {
+    if (!ayahs) return [];
+    return filterAyahs(ayahs, query);
+  }, [ayahs, query]);
 
   useEffect(() => {
     if (!surah) return;
@@ -111,6 +118,22 @@ function SurahReaderPage() {
         </button>
       </div>
 
+      {ayahs && (
+        <div className="mt-6">
+          <label className="sr-only" htmlFor="ayah-filter">
+            Filter Ayahs
+          </label>
+          <input
+            id="ayah-filter"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Filter by Ayah number, Arabic or Urdu text"
+            className="w-full rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-gold/70"
+          />
+        </div>
+      )}
+
       {!ayahs && !error && (
         <p className="mt-16 text-center text-muted-foreground">
           Loading Surah {surah.englishName}…
@@ -128,34 +151,40 @@ function SurahReaderPage() {
 
       {ayahs && (
         <ol className="mt-8 divide-y divide-border">
-          {ayahs.map((ayah) => (
-            <li
-              key={ayah.numberInSurah}
-              id={`ayah-${surah.number}-${ayah.numberInSurah}`}
-              className="scroll-mt-24 py-6"
-            >
-              <div className="flex items-start justify-end gap-3">
+          {filteredAyahs.length === 0 ? (
+            <li className="py-10 text-center text-sm text-muted-foreground">
+              No ayah matches that filter.
+            </li>
+          ) : (
+            filteredAyahs.map((ayah) => (
+              <li
+                key={ayah.numberInSurah}
+                id={`ayah-${surah.number}-${ayah.numberInSurah}`}
+                className="scroll-mt-24 py-6"
+              >
+                <div className="flex items-start justify-end gap-3">
+                  <p
+                    dir="rtl"
+                    className="min-w-0 flex-1 font-arabic leading-[2.3] text-foreground"
+                    style={{ fontSize: arabicSize }}
+                  >
+                    {ayah.arabic}
+                  </p>
+                  <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-gold/60 text-xs text-muted-foreground">
+                    {ayah.numberInSurah}
+                  </span>
+                </div>
                 <p
                   dir="rtl"
-                  className="min-w-0 flex-1 font-arabic leading-[2.3] text-foreground"
-                  style={{ fontSize: arabicSize }}
+                  className="mt-4 font-urdu leading-[2.7] text-muted-foreground"
+                  style={{ fontSize: urduSize }}
                 >
-                  {ayah.arabic}
+                  {ayah.urdu}
                 </p>
-                <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-gold/60 text-xs text-muted-foreground">
-                  {ayah.numberInSurah}
-                </span>
-              </div>
-              <p
-                dir="rtl"
-                className="mt-4 font-urdu leading-[2.7] text-muted-foreground"
-                style={{ fontSize: urduSize }}
-              >
-                {ayah.urdu}
-              </p>
-              <AyahTafsir surah={surah.number} ayah={ayah.numberInSurah} />
-            </li>
-          ))}
+                <AyahTafsir surah={surah.number} ayah={ayah.numberInSurah} />
+              </li>
+            ))
+          )}
         </ol>
       )}
 

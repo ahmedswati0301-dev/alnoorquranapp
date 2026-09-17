@@ -95,6 +95,9 @@ function ParasPage() {
                 <span dir="rtl" className="mt-0.5 block truncate font-arabic text-sm text-muted-foreground">
                   {para.arabic}
                 </span>
+                <span className="mt-1 block truncate text-xs text-muted-foreground">
+                  Urdu preview: {para.name}
+                </span>
               </span>
             </Link>
           </li>
