@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompleteRouteImport } from './routes/complete'
 import { Route as IntroRouteImport } from './routes/intro'
+import { Route as MasnoonDuainRouteImport } from './routes/masnoon-duain'
 import { Route as ParasRouteImport } from './routes/paras'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SurahsRouteImport } from './routes/surahs'
+import { Route as MasnoonDuainIdRouteImport } from './routes/masnoon-duain.$id'
 import { Route as ParaIdRouteImport } from './routes/para.$id'
 import { Route as SurahIdRouteImport } from './routes/surah.$id'
 
@@ -33,6 +35,11 @@ const IntroRoute = IntroRouteImport.update({
   path: '/intro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MasnoonDuainRoute = MasnoonDuainRouteImport.update({
+  id: '/masnoon-duain',
+  path: '/masnoon-duain',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ParasRoute = ParasRouteImport.update({
   id: '/paras',
   path: '/paras',
@@ -47,6 +54,11 @@ const SurahsRoute = SurahsRouteImport.update({
   id: '/surahs',
   path: '/surahs',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MasnoonDuainIdRoute = MasnoonDuainIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => MasnoonDuainRoute,
 } as any)
 const ParaIdRoute = ParaIdRouteImport.update({
   id: '/para/$id',
@@ -63,9 +75,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/complete': typeof CompleteRoute
   '/intro': typeof IntroRoute
+  '/masnoon-duain': typeof MasnoonDuainRouteWithChildren
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
   '/surahs': typeof SurahsRoute
+  '/masnoon-duain/$id': typeof MasnoonDuainIdRoute
   '/para/$id': typeof ParaIdRoute
   '/surah/$id': typeof SurahIdRoute
 }
@@ -73,9 +87,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/complete': typeof CompleteRoute
   '/intro': typeof IntroRoute
+  '/masnoon-duain': typeof MasnoonDuainRouteWithChildren
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
   '/surahs': typeof SurahsRoute
+  '/masnoon-duain/$id': typeof MasnoonDuainIdRoute
   '/para/$id': typeof ParaIdRoute
   '/surah/$id': typeof SurahIdRoute
 }
@@ -84,9 +100,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/complete': typeof CompleteRoute
   '/intro': typeof IntroRoute
+  '/masnoon-duain': typeof MasnoonDuainRouteWithChildren
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
   '/surahs': typeof SurahsRoute
+  '/masnoon-duain/$id': typeof MasnoonDuainIdRoute
   '/para/$id': typeof ParaIdRoute
   '/surah/$id': typeof SurahIdRoute
 }
@@ -96,9 +114,11 @@ export interface FileRouteTypes {
     | '/'
     | '/complete'
     | '/intro'
+    | '/masnoon-duain'
     | '/paras'
     | '/settings'
     | '/surahs'
+    | '/masnoon-duain/$id'
     | '/para/$id'
     | '/surah/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -106,9 +126,11 @@ export interface FileRouteTypes {
     | '/'
     | '/complete'
     | '/intro'
+    | '/masnoon-duain'
     | '/paras'
     | '/settings'
     | '/surahs'
+    | '/masnoon-duain/$id'
     | '/para/$id'
     | '/surah/$id'
   id:
@@ -116,9 +138,11 @@ export interface FileRouteTypes {
     | '/'
     | '/complete'
     | '/intro'
+    | '/masnoon-duain'
     | '/paras'
     | '/settings'
     | '/surahs'
+    | '/masnoon-duain/$id'
     | '/para/$id'
     | '/surah/$id'
   fileRoutesById: FileRoutesById
@@ -127,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompleteRoute: typeof CompleteRoute
   IntroRoute: typeof IntroRoute
+  MasnoonDuainRoute: typeof MasnoonDuainRouteWithChildren
   ParasRoute: typeof ParasRoute
   SettingsRoute: typeof SettingsRoute
   SurahsRoute: typeof SurahsRoute
@@ -157,6 +182,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/masnoon-duain': {
+      id: '/masnoon-duain'
+      path: '/masnoon-duain'
+      fullPath: '/masnoon-duain'
+      preLoaderRoute: typeof MasnoonDuainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/paras': {
       id: '/paras'
       path: '/paras'
@@ -178,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SurahsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/masnoon-duain/$id': {
+      id: '/masnoon-duain/$id'
+      path: '/$id'
+      fullPath: '/masnoon-duain/$id'
+      preLoaderRoute: typeof MasnoonDuainIdRouteImport
+      parentRoute: typeof MasnoonDuainRoute
+    }
     '/para/$id': {
       id: '/para/$id'
       path: '/para/$id'
@@ -195,10 +234,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface MasnoonDuainRouteChildren {
+  MasnoonDuainIdRoute: typeof MasnoonDuainIdRoute
+}
+
+const MasnoonDuainRouteChildren: MasnoonDuainRouteChildren = {
+  MasnoonDuainIdRoute: MasnoonDuainIdRoute,
+}
+
+const MasnoonDuainRouteWithChildren = MasnoonDuainRoute._addFileChildren(
+  MasnoonDuainRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompleteRoute: CompleteRoute,
   IntroRoute: IntroRoute,
+  MasnoonDuainRoute: MasnoonDuainRouteWithChildren,
   ParasRoute: ParasRoute,
   SettingsRoute: SettingsRoute,
   SurahsRoute: SurahsRoute,

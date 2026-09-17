@@ -27,6 +27,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link to="/surahs" className="btn-quiet">
               سورتیں
             </Link>
+            <Link to="/masnoon-duain" className="btn-quiet">
+              <span aria-hidden="true">✦</span>
+              <span>مسنون دعا</span>
+            </Link>
             <Link to="/settings" className="btn-quiet">
               ترتیبات
             </Link>
