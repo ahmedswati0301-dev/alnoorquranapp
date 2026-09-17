@@ -22,13 +22,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
           <nav className="flex shrink-0 items-center gap-2 text-sm">
             <Link to="/paras" className="btn-quiet">
-              Paras
+              پارے
             </Link>
             <Link to="/surahs" className="btn-quiet">
-              Surahs
+              سورتیں
             </Link>
             <Link to="/settings" className="btn-quiet">
-              Settings
+              ترتیبات
             </Link>
           </nav>
         </div>
