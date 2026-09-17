@@ -49,9 +49,12 @@ function Intro() {
           بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
         </p>
 
-        <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground">
-          This app was created to make reading and understanding the Quran easier, so we can read it
-          more, understand it, and follow its teachings.
+        <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Al-Noor Quran was created with one simple hope — to bring the words of the Quran closer
+          to your heart. Read the full Quran in Arabic with clear Urdu translation, Para by Para or
+          Surah by Surah, at your own pace and comfort. Whether you are starting your day, seeking
+          peace after a long one, or continuing a lifelong habit, let every page you open be a
+          source of light, guidance, and tranquility in your life.
         </p>
 
         <div className="card-premium mx-auto mt-8 max-w-xl p-5 text-center sm:p-6">
@@ -59,8 +62,15 @@ function Intro() {
             Isal-e-Sawab
           </p>
           <p dir="rtl" className="mt-3 font-urdu text-lg leading-[2.6] sm:text-xl">
-            یہ تلاوت ہمارے تمام مرحومین بزرگوں اور اہلِ ایمان کے نام۔ اللہ تعالیٰ اس کا اجر ان کو
-            پہنچائے، ان کی مغفرت فرمائے اور ان کے درجات بلند فرمائے۔ آمین۔
+            یہ قرآنِ پاک کی تلاوت، ترجمہ و تفسیر کا عمل تمام مرحومین و مرحومات، عزیز و اقارب اور
+            تمام اہلِ ایمان کی ارواح کو ایصالِ ثواب کی نیت سے پیش کیا جاتا ہے۔ اللہ تعالیٰ اسے اپنی
+            بارگاہ میں قبول فرمائے، ہمارے والدین کو صحت، عافیت، ایمان، خوشیوں اور برکتوں بھری لمبی
+            عمر عطا فرمائے، ہمیں قرآنِ پاک پڑھنے، اسے سمجھنے اور اس کی تعلیمات پر عمل کرنے کی توفیق
+            عطا فرمائے، اور تمام مرحومین کی مغفرت فرما کر ان کے درجات بلند فرمائے۔ آمین یا رب
+            العالمین۔
+          </p>
+          <p dir="rtl" className="mt-4 text-sm tracking-wide text-muted-foreground">
+            — طالبِ دعا، کفیل احمد
           </p>
         </div>
 

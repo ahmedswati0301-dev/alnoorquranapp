@@ -79,3 +79,55 @@ export async function getPara(juz: number): Promise<ParaContent> {
   writeCache(juz, data);
   return data;
 }
+
+export type SurahContent = {
+  surah: number;
+  ayahs: Ayah[];
+};
+
+const surahCacheKey = (surah: number) => `alnoor:surah:${surah}:v1`;
+
+async function fetchSurahEdition(surah: number, edition: string): Promise<ApiAyah[]> {
+  const res = await fetch(`${API}/surah/${surah}/${edition}`);
+  if (!res.ok) throw new Error(`Request failed (${res.status})`);
+  const json = await res.json();
+  if (!json?.data?.ayahs?.length) throw new Error("No data received");
+  const info = json.data as { number: number; name: string; englishName: string };
+  return (json.data.ayahs as Omit<ApiAyah, "surah">[]).map((a) => ({
+    ...a,
+    surah: { number: info.number, name: info.name, englishName: info.englishName },
+  }));
+}
+
+export async function getSurah(surah: number): Promise<SurahContent> {
+  try {
+    const raw = localStorage.getItem(surahCacheKey(surah));
+    if (raw) return JSON.parse(raw) as SurahContent;
+  } catch {
+    /* ignore unreadable cache */
+  }
+
+  const [arabic, urdu] = await Promise.all([
+    fetchSurahEdition(surah, ARABIC_EDITION),
+    fetchSurahEdition(surah, URDU_EDITION),
+  ]);
+
+  const data: SurahContent = {
+    surah,
+    ayahs: arabic.map((a, i) => ({
+      numberInSurah: a.numberInSurah,
+      arabic: a.text.replace(/^\uFEFF/, ""),
+      urdu: urdu[i]?.text ?? "",
+      surahNumber: a.surah.number,
+      surahName: a.surah.name,
+      surahEnglishName: a.surah.englishName,
+    })),
+  };
+
+  try {
+    localStorage.setItem(surahCacheKey(surah), JSON.stringify(data));
+  } catch {
+    /* quota exceeded — caching is best effort */
+  }
+  return data;
+}

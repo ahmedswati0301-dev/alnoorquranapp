@@ -24,6 +24,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link to="/paras" className="btn-quiet">
               Paras
             </Link>
+            <Link to="/surahs" className="btn-quiet">
+              Surahs
+            </Link>
             <Link to="/settings" className="btn-quiet">
               Settings
             </Link>

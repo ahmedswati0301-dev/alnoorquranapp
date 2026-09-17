@@ -43,6 +43,9 @@ function ParasPage() {
           {read.length} of 30 completed — choose a Para to begin reading
         </p>
         <div className="gold-rule mx-auto mt-5 h-px w-28" />
+        <Link to="/surahs" className="btn-quiet mt-5 inline-block">
+          Browse by Surah
+        </Link>
       </div>
 
       {lastRead && (

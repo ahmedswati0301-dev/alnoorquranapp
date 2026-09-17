@@ -14,7 +14,9 @@ import { Route as CompleteRouteImport } from './routes/complete'
 import { Route as IntroRouteImport } from './routes/intro'
 import { Route as ParasRouteImport } from './routes/paras'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SurahsRouteImport } from './routes/surahs'
 import { Route as ParaIdRouteImport } from './routes/para.$id'
+import { Route as SurahIdRouteImport } from './routes/surah.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,9 +43,19 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SurahsRoute = SurahsRouteImport.update({
+  id: '/surahs',
+  path: '/surahs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ParaIdRoute = ParaIdRouteImport.update({
   id: '/para/$id',
   path: '/para/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SurahIdRoute = SurahIdRouteImport.update({
+  id: '/surah/$id',
+  path: '/surah/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -53,7 +65,9 @@ export interface FileRoutesByFullPath {
   '/intro': typeof IntroRoute
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
+  '/surahs': typeof SurahsRoute
   '/para/$id': typeof ParaIdRoute
+  '/surah/$id': typeof SurahIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +75,9 @@ export interface FileRoutesByTo {
   '/intro': typeof IntroRoute
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
+  '/surahs': typeof SurahsRoute
   '/para/$id': typeof ParaIdRoute
+  '/surah/$id': typeof SurahIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,13 +86,31 @@ export interface FileRoutesById {
   '/intro': typeof IntroRoute
   '/paras': typeof ParasRoute
   '/settings': typeof SettingsRoute
+  '/surahs': typeof SurahsRoute
   '/para/$id': typeof ParaIdRoute
+  '/surah/$id': typeof SurahIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/complete' | '/intro' | '/paras' | '/settings' | '/para/$id'
+  fullPaths:
+    | '/'
+    | '/complete'
+    | '/intro'
+    | '/paras'
+    | '/settings'
+    | '/surahs'
+    | '/para/$id'
+    | '/surah/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/complete' | '/intro' | '/paras' | '/settings' | '/para/$id'
+  to:
+    | '/'
+    | '/complete'
+    | '/intro'
+    | '/paras'
+    | '/settings'
+    | '/surahs'
+    | '/para/$id'
+    | '/surah/$id'
   id:
     | '__root__'
     | '/'
@@ -84,7 +118,9 @@ export interface FileRouteTypes {
     | '/intro'
     | '/paras'
     | '/settings'
+    | '/surahs'
     | '/para/$id'
+    | '/surah/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,7 +129,9 @@ export interface RootRouteChildren {
   IntroRoute: typeof IntroRoute
   ParasRoute: typeof ParasRoute
   SettingsRoute: typeof SettingsRoute
+  SurahsRoute: typeof SurahsRoute
   ParaIdRoute: typeof ParaIdRoute
+  SurahIdRoute: typeof SurahIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -133,11 +171,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/surahs': {
+      id: '/surahs'
+      path: '/surahs'
+      fullPath: '/surahs'
+      preLoaderRoute: typeof SurahsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/para/$id': {
       id: '/para/$id'
       path: '/para/$id'
       fullPath: '/para/$id'
       preLoaderRoute: typeof ParaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/surah/$id': {
+      id: '/surah/$id'
+      path: '/surah/$id'
+      fullPath: '/surah/$id'
+      preLoaderRoute: typeof SurahIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -149,7 +201,9 @@ const rootRouteChildren: RootRouteChildren = {
   IntroRoute: IntroRoute,
   ParasRoute: ParasRoute,
   SettingsRoute: SettingsRoute,
+  SurahsRoute: SurahsRoute,
   ParaIdRoute: ParaIdRoute,
+  SurahIdRoute: SurahIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
